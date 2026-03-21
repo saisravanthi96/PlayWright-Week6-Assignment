@@ -8,7 +8,7 @@ test('Verify successful login',async({page})=>{
     await page.getByLabel("Password").fill("12341234");
     await page.getByRole('button', { name: 'Login' }).click();
     await expect(page).toHaveURL(/account/);
-    await expect(page.locator("body > main > div > div.account-welcome > p")).toHaveText(/account dashboard/);
+    await expect(page.getByText(/account dashboard/)).toBeVisible();
 })
 
 //Failed login with wrong password
@@ -22,13 +22,14 @@ test('Verify failed login with wrong password',async({page})=>{
 })
 
 //Empty username
-test('verify empty form submission',async({page})=>{
+test('verify empty username',async({page})=>{
     await page.goto('/');
     await page.getByRole("link", { name: 'Login or register' }).click();
     await page.getByLabel("Password").fill("12341234");
     await page.getByRole('button', { name: 'Login' }).click();
     await expect(page.locator('#loginFrm_loginname')).toHaveAttribute('required','');   
 })
+
 
 //empty password 
 test('verify empty password',async({page})=>{
