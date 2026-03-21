@@ -3,11 +3,11 @@ import { test, expect } from '@playwright/test';
 test('Verify product name matches with product description page', async ({ page }) => {
   
   // Step 1: Navigate to site
-  await page.goto('https://raider-test-site.onrender.com/');
+  await page.goto('/');
 
   // Step 2: Capture first product name from listing page
   const firstProduct = page.locator('.product-card').first();
-  const productNameListing = await firstProduct.locator('.product-title').innerText();
+  const productNameListing = await firstProduct.locator('.product-name').innerText();
 
   console.log('Product name on listing page:', productNameListing);
 
@@ -15,7 +15,7 @@ test('Verify product name matches with product description page', async ({ page 
   await firstProduct.click();
 
   // Step 4: Capture product name on detail page
-  const productNameDetail = await page.locator('.product-detail h1').innerText();
+  const productNameDetail = await page.locator('.product-detail-name').innerText();
 
   console.log('Product name on detail page:', productNameDetail);
 
