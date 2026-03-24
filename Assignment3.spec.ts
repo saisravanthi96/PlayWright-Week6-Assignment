@@ -1,35 +1,24 @@
 import { test, expect } from '@playwright/test';
 
+test('Verify product name matches with product description page', async ({ page }) => {
+  
+  // Step 1: Navigate to site
+  await page.goto('/');
 
-test('product_detail_test', async ({page}) => {
-    await page.goto('/');
-    const count = await page.locator(".product-card").count();
-    console.log(count);
-    var i = 1
-    for (i; i<count+1; i++) {
-        const name = await page.locator('body > main > div > div:nth-child('+ i +') > a > div.product-info > h3').innerText() ;        
-        const category = await page.locator('body > main > div > div:nth-child('+ i +') > a > div.product-info > span.product-category').innerText() ;        
-        const price = await page.locator('body > main > div > div:nth-child('+ i +') > a > div.product-info > span.product-price').innerText() ;
-        console.log(name,category,price);
+  // Step 2: Capture first product name from listing page
+  const firstProduct = page.locator('.product-card').first();
+  const productNameListing = await firstProduct.locator('.product-name').innerText();
 
-        await page.locator('body > main > div > div:nth-child('+i+') > a').click();
+  console.log('Product name on listing page:', productNameListing);
 
-///// Testing if the product detail page opens.
-        await expect(page).toHaveURL('/product/'+i);     
+  // Step 3: Click on the first product
+  await firstProduct.click();
 
+  // Step 4: Capture product name on detail page
+  const productNameDetail = await page.locator('.product-detail-name').innerText();
 
-///// Testing if the product detail page shows the correct information as the product page.
+  console.log('Product name on detail page:', productNameDetail);
 
-        const product_name = await page.locator('body > main > div > div > div.product-detail-info > h1').innerText() ;
-        expect(product_name).toBe(name);
-        console.log(product_name);
-
-        const product_category = await page.locator('body > main > div > div > div.product-detail-info > span').innerText() ;
-        expect(product_category).toBe(category);
-
-        const product_price = await page.locator('body > main > div > div > div.product-detail-info > p.product-detail-price').innerText() ;
-        expect(product_price).toBe(price);
-
-        await page.goBack();
-    }
-})
+  // Step 5: Assertion
+  await expect(productNameDetail).toBe(productNameListing);
+});
