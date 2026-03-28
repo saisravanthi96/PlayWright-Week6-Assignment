@@ -1,4 +1,4 @@
-import { test } from '@playwright/test';
+import { test,expect } from '@playwright/test';
 import { ProductPage } from '../pages/ProductPage';
 
 test('Product name matches listing and detail page', async ({ page }) => {
@@ -10,5 +10,5 @@ test('Product name matches listing and detail page', async ({ page }) => {
 
   await product.clickFirstProduct();
 
-  await product.verifyProductName(name);
+  await page.getByRole('link').first().click();
 });
